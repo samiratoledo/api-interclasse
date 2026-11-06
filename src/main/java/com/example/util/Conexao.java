@@ -12,7 +12,10 @@ import java.sql.Statement;
  */
 public class Conexao {
 
-    /** Caminho do arquivo do banco. Pode ser alterado pela variável de ambiente INTERCLASSE_DB. */
+    /**
+     * Caminho do arquivo do banco. Pode ser alterado pela variável de ambiente
+     * INTERCLASSE_DB.
+     */
     private static final String URL = "jdbc:sqlite:" + caminhoBanco();
 
     private static Connection conexao = null;
@@ -44,34 +47,61 @@ public class Conexao {
      */
     private static void criarTabelas(Connection conn) throws SQLException {
         String[] scripts = {
-            """
-            CREATE TABLE IF NOT EXISTS usuario (
-                id       INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome     TEXT    NOT NULL,
-                email    TEXT    NOT NULL UNIQUE,
-                senha    TEXT    NOT NULL,
-                tipo     TEXT    NOT NULL DEFAULT 'PARTICIPANTE'
-                             CHECK (tipo IN ('PARTICIPANTE', 'ORGANIZADOR')),
-                criado_em TEXT    NOT NULL DEFAULT (datetime('now'))
-            )
-            """,
-            """
-            CREATE TABLE IF NOT EXISTS chave_mestra (
-                id    INTEGER PRIMARY KEY AUTOINCREMENT,
-                chave TEXT NOT NULL UNIQUE
-            )
-            """,
-            """
-            CREATE TABLE IF NOT EXISTS time (
-                id          INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome        TEXT    NOT NULL,
-                cor         TEXT,
-                responsavel TEXT,
-                contato     TEXT,
-                criado_em   TEXT    NOT NULL DEFAULT (datetime('now'))
-            )
-            """,
-            "INSERT OR IGNORE INTO chave_mestra (chave) VALUES ('ETEC-INTERCLASSE-2026')"
+                """
+                        CREATE TABLE IF NOT EXISTS usuario (
+                            id       INTEGER PRIMARY KEY AUTOINCREMENT,
+                            nome     TEXT    NOT NULL,
+                            email    TEXT    NOT NULL UNIQUE,
+                            senha    TEXT    NOT NULL,
+                            tipo     TEXT    NOT NULL DEFAULT 'PARTICIPANTE'
+                                         CHECK (tipo IN ('PARTICIPANTE', 'ORGANIZADOR')),
+                            criado_em TEXT    NOT NULL DEFAULT (datetime('now'))
+                        )
+                        """,
+                """
+                        CREATE TABLE IF NOT EXISTS chave_mestra (
+                            id    INTEGER PRIMARY KEY AUTOINCREMENT,
+                            chave TEXT NOT NULL UNIQUE
+                        )
+                        """,
+                """
+                        CREATE TABLE IF NOT EXISTS time (
+                            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+                            nome        TEXT    NOT NULL,
+                            cor         TEXT,
+                            responsavel TEXT,
+                            contato     TEXT,
+                            criado_em   TEXT    NOT NULL DEFAULT (datetime('now'))
+                        )
+                        """,
+
+                """
+                        CREATE TABLE IF NOT EXISTS turma (
+                            id        INTEGER PRIMARY KEY AUTOINCREMENT,
+                            nome      TEXT    NOT NULL UNIQUE,
+                            curso     TEXT,
+                            ano       INTEGER,
+                            periodo   TEXT,
+                            imagem    TEXT,
+                            ativa     INTEGER NOT NULL DEFAULT 1,
+                            criado_em TEXT    NOT NULL DEFAULT (datetime('now'))
+                        )
+                        """,
+                """
+                        CREATE TABLE IF NOT EXISTS modalidade (
+                            id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                            nome            TEXT    NOT NULL UNIQUE,
+                            descricao       TEXT,
+                            categoria       TEXT    NOT NULL DEFAULT 'misto'
+                                            CHECK (categoria IN ('masculino', 'feminino', 'misto')),
+                            minimo_atletas  INTEGER NOT NULL DEFAULT 1,
+                            maximo_atletas  INTEGER NOT NULL DEFAULT 30,
+                            icone           TEXT,
+                            ativo           INTEGER NOT NULL DEFAULT 1,
+                            criado_em       TEXT    NOT NULL DEFAULT (datetime('now'))
+                        )
+                        """,
+                "INSERT OR IGNORE INTO chave_mestra (chave) VALUES ('ETEC-INTERCLASSE-2026')"
         };
 
         try (Statement stmt = conn.createStatement()) {

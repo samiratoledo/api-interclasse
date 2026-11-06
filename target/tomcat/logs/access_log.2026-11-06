@@ -1,0 +1,9 @@
+0:0:0:0:0:0:0:1 - - [06/Nov/2026:20:01:33 -0300] "GET /meu-servlet/api HTTP/1.1" 404 - http-bio-8082-exec-1 0
+0:0:0:0:0:0:0:1 - - [06/Nov/2026:20:01:35 -0300] "GET /meu-servlet/api HTTP/1.1" 404 - http-bio-8082-exec-3 0
+0:0:0:0:0:0:0:1 - - [06/Nov/2026:20:05:07 -0300] "GET /api/turmas HTTP/1.1" 200 12 http-bio-8082-exec-1 547
+0:0:0:0:0:0:0:1 - - [06/Nov/2026:20:05:07 -0300] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8082-exec-3 0
+0:0:0:0:0:0:0:1 - - [06/Nov/2026:20:05:12 -0300] "GET /api/modalidades HTTP/1.1" 200 12 http-bio-8082-exec-4 5
+0:0:0:0:0:0:0:1 - - [06/Nov/2026:20:12:40 -0300] "POST /api/turmas HTTP/1.1" 200 128 http-bio-8082-exec-6 13
+0:0:0:0:0:0:0:1 - - [06/Nov/2026:20:13:06 -0300] "POST /api/modalidades HTTP/1.1" 200 207 http-bio-8082-exec-7 15
+0:0:0:0:0:0:0:1 - - [06/Nov/2026:20:13:11 -0300] "GET /api/modalidades HTTP/1.1" 200 231 http-bio-8082-exec-9 10
+0:0:0:0:0:0:0:1 - - [06/Nov/2026:20:13:13 -0300] "GET /api/turmas HTTP/1.1" 200 148 http-bio-8082-exec-9 4
