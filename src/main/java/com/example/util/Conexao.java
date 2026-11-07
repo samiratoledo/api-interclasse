@@ -2,6 +2,7 @@ package com.example.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -71,7 +72,8 @@ public class Conexao {
                             cor         TEXT,
                             responsavel TEXT,
                             contato     TEXT,
-                            criado_em   TEXT    NOT NULL DEFAULT (datetime('now'))
+                            criado_em   TEXT    NOT NULL DEFAULT (datetime('now')),
+                            turma_id    INTEGER REFERENCES turma(id)
                         )
                         """,
 
@@ -109,6 +111,31 @@ public class Conexao {
             for (String script : scripts) {
                 stmt.execute(script);
             }
+        }
+
+        migrarTabelaTime(conn);
+    }
+
+    /**
+     * Bancos criados antes do vinculo time -> turma nao tem a coluna turma_id
+     * (CREATE TABLE IF NOT EXISTS nao altera tabela existente). Aqui ela e adicionada.
+     */
+    private static void migrarTabelaTime(Connection conn) throws SQLException {
+        boolean temTurmaId = false;
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("PRAGMA table_info(time)")) {
+            while (rs.next()) {
+                if ("turma_id".equalsIgnoreCase(rs.getString("name"))) {
+                    temTurmaId = true;
+                }
+            }
+        }
+
+        try (Statement stmt = conn.createStatement()) {
+            if (!temTurmaId) {
+                stmt.execute("ALTER TABLE time ADD COLUMN turma_id INTEGER REFERENCES turma(id)");
+            }
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_time_turma ON time(turma_id)");
         }
     }
 }
