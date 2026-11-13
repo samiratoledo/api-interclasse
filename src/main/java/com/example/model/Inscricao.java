@@ -1,9 +1,12 @@
 package com.example.model;
 
+import java.time.LocalDate;
+
 public class Inscricao{
     private int id;
     private int idTime;
     private int idModalidade;
+    private LocalDate dataInscricao;
     public enum StatusInscricao {
     	PENDENTE, CONFIRMADA, NEGADA
     };
@@ -34,6 +37,12 @@ public class Inscricao{
     }
     public void setIdTime(int idTime) {
         this.idTime = idTime;
+    }
+    public LocalDate getDataInscricao(){
+        return dataInscricao;
+    }
+    public void setDataInscricao(int dataInscricao){
+        this.dataInscricao = dataInscricao;
     }
     public StatusInscricao getStatus() {
         return status;
