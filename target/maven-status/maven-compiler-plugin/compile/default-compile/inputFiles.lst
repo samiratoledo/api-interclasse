@@ -3,11 +3,13 @@ C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\examp
 C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\example\controller\ModalidadeController.java
 C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\example\controller\TimeController.java
 C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\example\controller\TurmaController.java
+C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\example\dao\InscricaoDao.java
 C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\example\dao\ModalidadeDao.java
 C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\example\dao\TimeDao.java
 C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\example\dao\TurmaDao.java
 C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\example\dao\UsuarioDao.java
 C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\example\filter\OrganizadorFilter.java
+C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\example\model\Inscricao.java
 C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\example\model\Modalidade.java
 C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\example\model\Time.java
 C:\Users\famil\OneDrive\Desktop\cloneAPI\api-interclasse\src\main\java\com\example\model\Turma.java

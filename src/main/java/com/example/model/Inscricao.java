@@ -41,7 +41,7 @@ public class Inscricao{
     public LocalDate getDataInscricao(){
         return dataInscricao;
     }
-    public void setDataInscricao(int dataInscricao){
+    public void setDataInscricao(LocalDate dataInscricao){
         this.dataInscricao = dataInscricao;
     }
     public StatusInscricao getStatus() {
