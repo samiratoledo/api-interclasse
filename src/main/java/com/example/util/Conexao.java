@@ -128,6 +128,17 @@ public class Conexao {
                             criado_em       TEXT NOT NULL DEFAULT (datetime('now'))
                         )
                         """,
+
+                        """
+                        CREATE TABLE IF NOT EXISTS inscricoes (
+                            id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                            time_id         INTEGER NOT NULL REFERENCES time(id),
+                            modalidade_id   INTEGER NOT NULL REFERENCES modalidade(id),
+                            data_inscricao TEXT    NOT NULL DEFAULT (datetime('now')),
+                            status          TEXT NOT NULL DEFAULT 'PENDENTE'
+                                            CHECK (status IN ('PENDENTE', 'APROVADA','RECUSADA')),
+                            )
+                        """,
                         
                 "INSERT OR IGNORE INTO chave_mestra (chave) VALUES ('ETEC-INTERCLASSE-2026')"
         };
