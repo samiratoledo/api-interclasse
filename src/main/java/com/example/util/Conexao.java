@@ -103,6 +103,32 @@ public class Conexao {
                             criado_em       TEXT    NOT NULL DEFAULT (datetime('now'))
                         )
                         """,
+
+                    """
+                        CREATE TABLE IF NOT EXISTS partida (
+                            id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                            modalidade_id   INTEGER NOT NULL REFERENCES modalidade(id) ON DELETE CASCADE,
+                            time1_id        INTEGER NOT NULL REFERENCES time(id) ON DELETE CASCADE,
+                            time2_id        INTEGER NOT NULL REFERENCES time(id) ON DELETE CASCADE,
+                            placar1         INTEGER NOT NULL DEFAULT 0,
+                            placar2         INTEGER NOT NULL DEFAULT 0,
+                            status          TEXT NOT NULL DEFAULT 'AGENDADA'
+                                            CHECK (status IN ('AGENDADA', 'EM_ANDAMENTO','FINALIZADA', 'CANCELADA')),
+                            data_hora       TEXT
+                            local           TEXT                 
+                            criado_em       TEXT    NOT NULL DEFAULT (datetime('now'))
+                        )
+                        """,
+
+                        """
+                        CREATE TABLE IF NOT EXISTS configuração (
+                            id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                            chave           TEXT NOT NULL UNIQUE,
+                            valor           TEXT,
+                            criado_em       TEXT NOT NULL DEFAULT (datetime('now'))
+                        )
+                        """,
+                        
                 "INSERT OR IGNORE INTO chave_mestra (chave) VALUES ('ETEC-INTERCLASSE-2026')"
         };
 
