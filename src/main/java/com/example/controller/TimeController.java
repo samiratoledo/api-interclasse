@@ -32,8 +32,6 @@ import java.util.List;
 @WebServlet("/times")
 public class TimeController extends HttpServlet {
 
-    private static final int NOME_MAX = 60;
-
     private TimeDao dao = new TimeDao();
     private TurmaDao turmaDao = new TurmaDao();
 
@@ -193,9 +191,9 @@ public class TimeController extends HttpServlet {
         if (time.getNome() == null) {
             return erro(response, HttpServletResponse.SC_BAD_REQUEST, "nome e obrigatorio");
         }
-        if (time.getNome().length() < 2 || time.getNome().length() > NOME_MAX) {
+        if (time.getNome().length() < 2 || time.getNome().length() > 60) {
             return erro(response, HttpServletResponse.SC_BAD_REQUEST,
-                    "nome deve ter entre 2 e " + NOME_MAX + " caracteres");
+                    "nome deve ter entre 2 e " + 60 + " caracteres");
         }
         if (time.getResponsavel() == null) {
             return erro(response, HttpServletResponse.SC_BAD_REQUEST, "responsavel e obrigatorio");
