@@ -4,9 +4,9 @@ import java.time.LocalDate;
 
 public class Inscricao{
     private int id;
-    private int idTime;
-    private int idModalidade;
-    private LocalDate dataInscricao;
+    private int time_id;
+    private int modalidade_id;
+    private LocalDate data_inscricao;
     public enum StatusInscricao {
     	PENDENTE, CONFIRMADA, NEGADA
     };
@@ -14,10 +14,10 @@ public class Inscricao{
     private StatusInscricao status;
 
     public Inscricao() {}
-    public Inscricao(int id, int idTime, int idModalidade, StatusInscricao status){
+    public Inscricao(int id, int time_id, int modalidade_id, StatusInscricao status){
         this.id = id; 
-        this.idTime = idTime;
-        this.idModalidade = idModalidade;
+        this.time_id = time_id;
+        this.modalidade_id = modalidade_id;
         this.status = status;
     }
     public int getId() {
@@ -29,20 +29,20 @@ public class Inscricao{
     public int getIdModalidade() {
         return idModalidade;
     }
-    public void setIdModalidade(int idModalidade) {
-        this.idModalidade = idModalidade;
+    public void setIdModalidade(int modalidade_id) {
+        this.modalidade_id = modalidade_id;
     }
     public int getIdTime() {
         return idTime;
     }
-    public void setIdTime(int idTime) {
-        this.idTime = idTime;
+    public void setIdTime(int time_id) {
+        this.time_id = time_id;
     }
     public LocalDate getDataInscricao(){
-        return dataInscricao;
+        return data_inscricao;
     }
-    public void setDataInscricao(LocalDate dataInscricao){
-        this.dataInscricao = dataInscricao;
+    public void setDataInscricao(LocalDate data_inscricao){
+        this.data_inscricao = data_inscricao;
     }
     public StatusInscricao getStatus() {
         return status;
