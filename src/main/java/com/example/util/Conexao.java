@@ -6,17 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/**
- * Conexão com o banco SQLite (arquivo único, sem servidor de banco).
- *
- * O banco e as tabelas são criados automaticamente na primeira conexão.
- */
+
 public class Conexao {
 
-    /**
-     * Caminho do arquivo do banco. Pode ser alterado pela variável de ambiente
-     * INTERCLASSE_DB.
-     */
     private static final String URL = "jdbc:sqlite:" + caminhoBanco();
 
     private static Connection conexao = null;
@@ -42,10 +34,7 @@ public class Conexao {
         return conexao;
     }
 
-    /**
-     * Script das tabelas usadas pela base. Alunos podem ampliar este script
-     * conforme implementam as atividades do README.
-     */
+
     private static void criarTabelas(Connection conn) throws SQLException {
         String[] scripts = {
                 """
@@ -104,39 +93,45 @@ public class Conexao {
                         )
                         """,
 
-                    """
+                """
                         CREATE TABLE IF NOT EXISTS partida (
                             id              INTEGER PRIMARY KEY AUTOINCREMENT,
-                            modalidade_id   INTEGER NOT NULL REFERENCES modalidade(id) ON DELETE CASCADE,
-                            time1_id        INTEGER NOT NULL REFERENCES time(id) ON DELETE CASCADE,
-                            time2_id        INTEGER NOT NULL REFERENCES time(id) ON DELETE CASCADE,
-                            placar1         INTEGER NOT NULL DEFAULT 0,
-                            placar2         INTEGER NOT NULL DEFAULT 0,
-                            status          TEXT NOT NULL DEFAULT 'AGENDADA'
-                                            CHECK (status IN ('AGENDADA', 'EM_ANDAMENTO','FINALIZADA', 'CANCELADA')),
-                            data_hora       TEXT
-                            local           TEXT                 
-                            criado_em       TEXT    NOT NULL DEFAULT (datetime('now'))
+                            modalidade_id   INTEGER NOT NULL REFERENCES modalidade(id),
+                            time_a_id       INTEGER NOT NULL REFERENCES time(id),
+                            time_b_id       INTEGER NOT NULL REFERENCES time(id),
+                            placar_a        INTEGER NOT NULL DEFAULT 0 CHECK (placar_a >= 0),
+                            placar_b        INTEGER NOT NULL DEFAULT 0 CHECK (placar_b >= 0),
+                            data            TEXT,
+                            hora            TEXT,
+                            local           TEXT,
+                            fase            TEXT    NOT NULL DEFAULT 'AVULSO'
+                                            CHECK (fase IN ('AVULSO', 'GRUPOS', 'QUARTAS', 'SEMI', 'FINAL')),
+                            status          TEXT    NOT NULL DEFAULT 'AGENDADA'
+                                            CHECK (status IN ('AGENDADA', 'EM_ANDAMENTO', 'FINALIZADA', 'CANCELADA')),
+                            criado_em       TEXT    NOT NULL DEFAULT (datetime('now')),
+                            CHECK (time_a_id <> time_b_id)
                         )
                         """,
-
-                        """
-                        CREATE TABLE IF NOT EXISTS configuração (
-                            id              INTEGER PRIMARY KEY AUTOINCREMENT,
-                            chave           TEXT NOT NULL UNIQUE,
-                            valor           TEXT,
-                            criado_em       TEXT NOT NULL DEFAULT (datetime('now'))
+                "CREATE INDEX IF NOT EXISTS idx_partida_modalidade ON partida(modalidade_id, status)",
+                """
+                        CREATE TABLE IF NOT EXISTS configuracao (
+                            chave   TEXT PRIMARY KEY,
+                            valor   TEXT NOT NULL
                         )
                         """,
+                "INSERT OR IGNORE INTO configuracao (chave, valor) VALUES ('PONTOS_VITORIA', '3')",
+                "INSERT OR IGNORE INTO configuracao (chave, valor) VALUES ('PONTOS_EMPATE', '1')",
+                "INSERT OR IGNORE INTO configuracao (chave, valor) VALUES ('PONTOS_DERROTA', '0')",
+                "INSERT OR IGNORE INTO configuracao (chave, valor) VALUES ('PERMITE_EMPATE', '1')",
 
                         """
-                        CREATE TABLE IF NOT EXISTS inscricoes (
+                        CREATE TABLE IF NOT EXISTS inscricao (
                             id              INTEGER PRIMARY KEY AUTOINCREMENT,
                             time_id         INTEGER NOT NULL REFERENCES time(id),
                             modalidade_id   INTEGER NOT NULL REFERENCES modalidade(id),
                             data_inscricao TEXT    NOT NULL DEFAULT (datetime('now')),
                             status          TEXT NOT NULL DEFAULT 'PENDENTE'
-                                            CHECK (status IN ('PENDENTE', 'APROVADA','RECUSADA')),
+                                            CHECK (status IN ('PENDENTE', 'CONFIRMADA','NEGADA')),
                             )
                         """,
                         
@@ -153,10 +148,7 @@ public class Conexao {
         migrarTabelaTime(conn);
     }
 
-    /**
-     * Bancos criados antes do vinculo time -> turma nao tem a coluna turma_id
-     * (CREATE TABLE IF NOT EXISTS nao altera tabela existente). Aqui ela e adicionada.
-     */
+   
     private static void migrarTabelaTime(Connection conn) throws SQLException {
         boolean temTurmaId = false;
         try (Statement stmt = conn.createStatement();
