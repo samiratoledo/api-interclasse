@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 @WebServlet({"/partidas", "/partidas/*"})
 public class PartidaController extends HttpServlet {
 
@@ -204,7 +205,6 @@ public class PartidaController extends HttpServlet {
             return;
         }
 
-        // Empate configuravel: PERMITE_EMPATE = 0 bloqueia a finalizacao de partida empatada
         if (partida.getPlacarA().equals(partida.getPlacarB()) && !configuracaoDao.permiteEmpate()) {
             JsonUtil.enviarErro(response, HttpServletResponse.SC_CONFLICT,
                     "Empate nao permitido: ajuste o placar antes de finalizar");
@@ -226,7 +226,6 @@ public class PartidaController extends HttpServlet {
         JsonUtil.enviar(response, dao.buscarPorId(partida.getId()));
     }
 
-    /** POST /api/partidas?id=1/cancelar */
     private void cancelar(Rota rota, HttpServletResponse response) throws IOException, SQLException {
         Partida partida = buscarOuErro(rota, response);
         if (partida == null) {
@@ -244,7 +243,6 @@ public class PartidaController extends HttpServlet {
 
 
 
-    /** PUT /api/partidas?id=1 : reagenda. Campos nao enviados continuam como estao. */
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

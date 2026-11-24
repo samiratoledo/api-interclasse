@@ -18,7 +18,7 @@ import java.util.List;
  * Rotas:
  *   GET    /inscricoes                    -> lista todas
  *   GET    /inscricoes?id=1               -> busca uma
- *   GET    /inscricoes?idModalidade=2     -> lista as CONFIRMADAS da modalidade
+ *   GET    /inscricoes?modalidade_id=2     -> lista as CONFIRMADAS da modalidade
  *   POST   /inscricoes                    -> cria (status padrao: PENDENTE)
  *   PUT    /inscricoes?id=1               -> atualiza (corpo parcial aceito)
  *   PUT    /inscricoes?id=1&status=CONFIRMADA -> muda so o status
@@ -33,7 +33,7 @@ public class InscricaoController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String id = request.getParameter("id");
-            String idModalidade = request.getParameter("idModalidade");
+            String modalidade_id = request.getParameter("modalidade_id");
 
             if (id != null) {
                 Inscricao inscricao = dao.buscarPorId(Integer.parseInt(id));
@@ -45,8 +45,8 @@ public class InscricaoController extends HttpServlet {
                 return;
             }
 
-            List<Inscricao> lista = (idModalidade != null)
-                    ? dao.listarModalidade(Integer.parseInt(idModalidade))
+            List<Inscricao> lista = (modalidade_id != null)
+                    ? dao.listarModalidade(Integer.parseInt(modalidade_id))
                     : dao.listar();
             JsonUtil.enviar(response, lista);
 
@@ -64,7 +64,7 @@ public class InscricaoController extends HttpServlet {
 
             if (inscricao == null || inscricao.getIdTime() <= 0 || inscricao.getIdModalidade() <= 0) {
                 JsonUtil.enviarErro(response, HttpServletResponse.SC_BAD_REQUEST,
-                        "idTime e idModalidade sao obrigatorios");
+                        "time_id e modalidade_id sao obrigatorios");
                 return;
             }
 

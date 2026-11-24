@@ -84,11 +84,11 @@ public class InscricaoDao{
         }
     }
 
-    public List<Inscricao> listarModalidade(int idModalidade) throws SQLException {
+    public List<Inscricao> listarModalidade(int modalidade_id) throws SQLException {
         List<Inscricao> lista = new ArrayList<>();
         Connection conn = Conexao.getConexao();
-        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM inscricao WHERE idModalidade = ? AND status = 'CONFIRMADA'")) {
-            ps.setInt(1, idModalidade);
+        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM inscricao WHERE modalidade_id = ? AND status = 'CONFIRMADA'")) {
+            ps.setInt(1, modalidade_id);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     lista.add(mapear(rs));
@@ -107,21 +107,21 @@ public class InscricaoDao{
         }
     }
 
-    public boolean timeTemInscricaoAtiva(int idTime) throws SQLException {
+    public boolean timeTemInscricaoAtiva(int time_id) throws SQLException {
         Connection conn = Conexao.getConexao();
-        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM inscricao WHERE idTime = ? AND status = 'CONFIRMADA'")) {
-            ps.setInt(1, idTime);
+        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM inscricao WHERE time_id = ? AND status IN ('PENDENTE','CONFIRMADA')")) {
+            ps.setInt(1, time_id);
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
             }
         }
     }
 
-    public boolean estaConfirmado(int idTime, int idModalidade) throws SQLException {
+    public boolean estaConfirmado(int time_id, int modalidade_id) throws SQLException {
         Connection conn = Conexao.getConexao();
-        try (PreparedStatement ps = conn.prepareStatement("SELECT 1 FROM inscricao WHERE idTime = ? AND idModalidade = ? AND status = 'CONFIRMADA'")) {
-            ps.setInt(1, idTime);
-            ps.setInt(2, idModalidade);
+        try (PreparedStatement ps = conn.prepareStatement("SELECT 1 FROM inscricao WHERE time_id = ? AND modalidade_id = ? AND status = 'CONFIRMADA'")) {
+            ps.setInt(1, time_id);
+            ps.setInt(2, modalidade_id);
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
             }
@@ -131,10 +131,10 @@ public class InscricaoDao{
     private Inscricao mapear(ResultSet rs) throws SQLException {
         Inscricao inscricao = new Inscricao();
         inscricao.setId(rs.getInt("id"));
-        inscricao.setIdModalidade(rs.getInt("idModalidade"));
-        inscricao.setIdTime(rs.getInt("idTime"));
+        inscricao.setIdModalidade(rs.getInt("modalidade_id"));
+        inscricao.setIdTime(rs.getInt("time_id"));
         inscricao.setStatus(StatusInscricao.valueOf(rs.getString("status")));
-        String data = rs.getString("dataInscricao");
+        String data = rs.getString("data_inscricao");
         if (data != null) {
             inscricao.setDataInscricao(LocalDate.parse(data));
         }

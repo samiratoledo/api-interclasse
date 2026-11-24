@@ -27,13 +27,13 @@ public class Inscricao{
         this.id = id;
     }
     public int getIdModalidade() {
-        return idModalidade;
+        return modalidade_id;
     }
     public void setIdModalidade(int modalidade_id) {
         this.modalidade_id = modalidade_id;
     }
     public int getIdTime() {
-        return idTime;
+        return time_id;
     }
     public void setIdTime(int time_id) {
         this.time_id = time_id;

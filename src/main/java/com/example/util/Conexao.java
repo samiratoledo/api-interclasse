@@ -109,7 +109,7 @@ public class Conexao {
                             status          TEXT    NOT NULL DEFAULT 'AGENDADA'
                                             CHECK (status IN ('AGENDADA', 'EM_ANDAMENTO', 'FINALIZADA', 'CANCELADA')),
                             criado_em       TEXT    NOT NULL DEFAULT (datetime('now')),
-                            CHECK (time_a_id <> time_b_id)
+                            CHECK (time1_id <> time2_id)
                         )
                         """,
                 "CREATE INDEX IF NOT EXISTS idx_partida_modalidade ON partida(modalidade_id, status)",
@@ -127,11 +127,11 @@ public class Conexao {
                         """
                         CREATE TABLE IF NOT EXISTS inscricao (
                             id              INTEGER PRIMARY KEY AUTOINCREMENT,
-                            idModalidade   INTEGER NOT NULL REFERENCES modalidade(id),
-                            idTime         INTEGER NOT NULL REFERENCES time(id),
+                            modalidade_id   INTEGER NOT NULL REFERENCES modalidade(id),
+                            time_id         INTEGER NOT NULL REFERENCES time(id),
                             status         TEXT    NOT NULL DEFAULT 'PENDENTE'
                                            CHECK (status IN ('PENDENTE', 'CONFIRMADA', 'NEGADA')),
-                            dataInscricao  TEXT
+                            data_inscricao  TEXT
                             )
                         """,
                         

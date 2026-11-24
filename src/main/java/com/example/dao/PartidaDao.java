@@ -20,8 +20,8 @@ public class PartidaDao {
             "m.nome AS modalidade_nome, ta.nome AS time_a_nome, tb.nome AS time_b_nome " +
             "FROM partida p " +
             "JOIN modalidade m ON m.id = p.modalidade_id " +
-            "JOIN time ta ON ta.id = p.time_a_id " +
-            "JOIN time tb ON tb.id = p.time_b_id ";
+            "JOIN time ta ON ta.id = p.time1_id " +
+            "JOIN time tb ON tb.id = p.time2_id ";
 
     private static final String SQL_ORDEM = "ORDER BY p.data IS NULL, p.data, p.hora, p.id";
 
@@ -165,8 +165,8 @@ public class PartidaDao {
         Partida p = new Partida();
         p.setId(rs.getInt("id"));
         p.setModalidadeId(rs.getInt("modalidade_id"));
-        p.setTimeAId(rs.getInt("time_a_id"));
-        p.setTimeBId(rs.getInt("time_b_id"));
+        p.setTimeAId(rs.getInt("time1_id"));
+        p.setTimeBId(rs.getInt("time2_id"));
         p.setPlacarA(rs.getInt("placar_a"));
         p.setPlacarB(rs.getInt("placar_b"));
         p.setData(rs.getString("data"));

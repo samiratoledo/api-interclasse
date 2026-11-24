@@ -1,3 +1,4 @@
+
 package com.example.util;
 
 import com.google.gson.Gson;
@@ -9,12 +10,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-/**
- * Auxiliares de JSON para as controllers.
- */
 public class JsonUtil {
 
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson gson = new GsonBuilder()
+        .setPrettyPrinting()
+        .registerTypeAdapter(java.time.LocalDate.class,
+            (com.google.gson.JsonSerializer<java.time.LocalDate>) (d, t, c) ->
+                new com.google.gson.JsonPrimitive(d.toString()))
+        .registerTypeAdapter(java.time.LocalDate.class,
+            (com.google.gson.JsonDeserializer<java.time.LocalDate>) (j, t, c) ->
+                java.time.LocalDate.parse(j.getAsString()))
+        .create();
 
     /** Envia um objeto como resposta JSON (200). */
     public static void enviar(HttpServletResponse response, Object objeto) throws IOException {
@@ -25,7 +31,7 @@ public class JsonUtil {
         out.flush();
     }
 
-    /** Envia uma mensagem de sucesso (ex: "Time removido"). */
+    /** Envia uma mensagem de sucesso. */
     public static void enviarMensagem(HttpServletResponse response, int status, String mensagem) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(status);
@@ -34,7 +40,7 @@ public class JsonUtil {
         out.flush();
     }
 
-    /** Envia uma mensagem de erro com o status HTTP informado. */
+    /** Envia uma mensagem de erro. */
     public static void enviarErro(HttpServletResponse response, int status, String mensagem) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(status);
@@ -43,21 +49,23 @@ public class JsonUtil {
         out.flush();
     }
 
-    /** Le o corpo da requisicao e converte para o tipo informado. */
+    /** Lê o corpo da requisição e converte para o tipo informado. */
     public static <T> T ler(HttpServletRequest request, Class<T> classe) throws IOException {
         BufferedReader reader = request.getReader();
         StringBuilder sb = new StringBuilder();
         String linha;
+
         while ((linha = reader.readLine()) != null) {
             sb.append(linha);
         }
+
         if (sb.length() == 0) {
             return null;
         }
+
         return gson.fromJson(sb.toString(), classe);
     }
 
-    /** Objeto simples de retorno de erro. */
     public static class Erro {
         private String erro;
 
@@ -70,7 +78,6 @@ public class JsonUtil {
         }
     }
 
-    /** Objeto simples de retorno de mensagem. */
     public static class Mensagem {
         private String mensagem;
 
