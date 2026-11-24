@@ -18,8 +18,8 @@ import java.util.List;
 public class InscricaoDao{
     private static final String SQL_LISTAR = "SELECT * FROM inscricao ORDER BY id";
     private static final String SQL_BUSCAR = "SELECT * FROM inscricao WHERE id = ?";
-    private static final String SQL_INSERIR = "INSERT INTO inscricao (idModalidade, idTime, status, dataInscricao) VALUES (?, ?, ?, ?)";
-    private static final String SQL_ATUALIZAR = "UPDATE inscricao SET idModalidade = ?, idTime = ?,status = ?, dataInscricao = ? WHERE id = ?";
+    private static final String SQL_INSERIR = "INSERT INTO inscricao (modalidade_id, time_id, status, data_inscricao) VALUES (?, ?, ?, ?)";
+    private static final String SQL_ATUALIZAR = "UPDATE inscricao SET modalidade_id = ?, time_id = ?,status = ?, data_inscricao = ? WHERE id = ?";
     private static final String SQL_DELETAR = "DELETE FROM inscricao WHERE id = ?";
 
     public List<Inscricao> listar() throws SQLException {
