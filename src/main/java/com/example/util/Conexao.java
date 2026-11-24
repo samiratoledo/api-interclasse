@@ -127,11 +127,11 @@ public class Conexao {
                         """
                         CREATE TABLE IF NOT EXISTS inscricao (
                             id              INTEGER PRIMARY KEY AUTOINCREMENT,
-                            time_id         INTEGER NOT NULL REFERENCES time(id),
-                            modalidade_id   INTEGER NOT NULL REFERENCES modalidade(id),
-                            data_inscricao TEXT    NOT NULL DEFAULT (datetime('now')),
-                            status          TEXT NOT NULL DEFAULT 'PENDENTE'
-                                            CHECK (status IN ('PENDENTE', 'CONFIRMADA','NEGADA')),
+                            idModalidade   INTEGER NOT NULL REFERENCES modalidade(id),
+                            idTime         INTEGER NOT NULL REFERENCES time(id),
+                            status         TEXT    NOT NULL DEFAULT 'PENDENTE'
+                                           CHECK (status IN ('PENDENTE', 'CONFIRMADA', 'NEGADA')),
+                            dataInscricao  TEXT
                             )
                         """,
                         
