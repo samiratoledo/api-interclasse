@@ -97,8 +97,8 @@ public class Conexao {
                         CREATE TABLE IF NOT EXISTS partida (
                             id              INTEGER PRIMARY KEY AUTOINCREMENT,
                             modalidade_id   INTEGER NOT NULL REFERENCES modalidade(id),
-                            time_a_id       INTEGER NOT NULL REFERENCES time(id),
-                            time_b_id       INTEGER NOT NULL REFERENCES time(id),
+                            time1_id       INTEGER NOT NULL REFERENCES time(id),
+                            time2_id       INTEGER NOT NULL REFERENCES time(id),
                             placar_a        INTEGER NOT NULL DEFAULT 0 CHECK (placar_a >= 0),
                             placar_b        INTEGER NOT NULL DEFAULT 0 CHECK (placar_b >= 0),
                             data            TEXT,
