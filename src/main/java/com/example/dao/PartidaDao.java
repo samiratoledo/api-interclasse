@@ -15,7 +15,7 @@ import java.util.List;
 public class PartidaDao {
 
     private static final String SQL_BASE =
-            "SELECT p.id, p.modalidade_id, p.time_a_id, p.time_b_id, p.placar_a, p.placar_b, " +
+            "SELECT p.id, p.modalidade_id, p.time1_id, p.time2_id, p.placar_a, p.placar_b, " +
             "p.data, p.hora, p.local, p.fase, p.status, " +
             "m.nome AS modalidade_nome, ta.nome AS time_a_nome, tb.nome AS time_b_nome " +
             "FROM partida p " +
@@ -28,7 +28,7 @@ public class PartidaDao {
     private static final String SQL_BUSCAR = SQL_BASE + "WHERE p.id = ?";
 
     private static final String SQL_INSERIR =
-            "INSERT INTO partida (modalidade_id, time_a_id, time_b_id, data, hora, local, fase, status) " +
+            "INSERT INTO partida (modalidade_id, time1_id, time2_id, data, hora, local, fase, status) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, 'AGENDADA')";
 
     // Placar so muda enquanto a partida nao terminou; ao lancar placar ela passa a EM_ANDAMENTO.
